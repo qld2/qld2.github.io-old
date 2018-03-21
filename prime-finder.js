@@ -1,8 +1,4 @@
-var irrational = 3.1415298678246713834738927410924;
-var digits = 3;
-var factor = Math.pow(10, digits - 1);
 
-//document.getElementById("output").addEventListener('click', printPrimes);
 function isPrime (x) {
     for (var i = 2; i < Math.sqrt(x); i++) {
         if(x%i === 0) {
@@ -12,28 +8,47 @@ function isPrime (x) {
     return true;
 }
 
-function generatePrimes() {
-    irrational = irrational*factor;
+function generatePrimes(ir,dig) {
+    var factor = Math.pow(10, dig - 1);
+
+    ir = ir*factor;
 
     for (var i = 0; i < 20; i++) {
-        var trun = Math.floor(irrational);
+        var trun = Math.floor(ir);
 
         if (isPrime(trun) === true) {
             return trun;
         }
 
-        irrational /= factor;
-        var trun2 = Math.floor(irrational);
+        ir /= factor;
+        var trun2 = Math.floor(ir);
         trun2 *= factor;
-        irrational *= factor;
-        irrational -= trun2;
-        irrational *= 10;
+        ir *= factor;
+        ir -= trun2;
+        ir *= 10;
     }
 }
+
 var prime = generatePrimes();
 
 function printPrimes() {
+    var digits = document.getElementById("digits").value;
+    var irrational = 0;
 
-    document.getElementById("primes").innerText = "5";
+
+    if (document.getElementById("sqrt2").checked) {
+        irrational = Math.sqrt(2);
+    }
+
+    if (document.getElementById("pi").checked) {
+        irrational = Math.PI;
+    }
+
+    if (document.getElementById("e").checked) {
+        irrational = Math.E;
+    }
+
+    var p = generatePrimes(irrational,digits);
+    document.getElementById("primes").innerText = p.toString();
 }
 

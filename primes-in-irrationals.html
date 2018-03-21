@@ -8,11 +8,6 @@
 
     <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
     <script type="text/javascript" src ='prime-finder.js'></script>
-    <script>
-        function wild(){
-            document.getElementById("primes").innerHTML = "Hello World";
-        }
-    </script>
 </head>
 
 
@@ -37,10 +32,10 @@
     </div>
 
     <div>
-        <button id="butt">Find Primes</button>
+        <button id="Enter" onclick="printPrimes()">Find Primes</button>
     </div>
 
-    <p id="primes" onclick="wild();"> 1 </p>
+    <p id="primes"></p>
 
 </body>
 </html>

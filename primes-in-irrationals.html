@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Primes in the digits of irrational numbers</title>
+
+    <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+    <script type="text/javascript" src ='prime-finder.js'></script>
+    <script>
+        function wild(){
+            document.getElementById("primes").innerHTML = "Hello World";
+        }
+    </script>
+</head>
+
+
+<body>
+
+    Irrational:
+
+    <div>
+        <label for="sqrt2"><span lang="latex">\sqrt{2}</span></label>
+        <input id="sqrt2" type="radio" name="ukus" value="us" checked>
+
+        <label for="pi"><span lang="latex">\pi</span></label>
+        <input id="pi" type="radio" name="ukus" value="uk">
+
+        <label for="e"><span lang="latex">e</span></label>
+        <input id="e" type="radio" name="ukus" value="uk">
+    </div>
+
+    <div>
+        <label for= "digits"> Enter how many digits we want in our prime: </label>
+        <input id="digits" type="text" placeholder="1,2,...,9">
+    </div>
+
+    <div>
+        <button id="butt">Find Primes</button>
+    </div>
+
+    <p id="primes" onclick="wild();"> 1 </p>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+body {
+    background-color: #adf3ff;
+}
+h1 {
+    font-family: "Courier New";
+    border-left: 6px solid #23b1ff;
+    background-color: #81d2ff;
+    margin: 50px
+}
+p {
+    font-family: "Courier New";
+    margin: 15px;
+    padding-bottom: 1px;
+}
+
+
+div{
+    text-align: center;
+    padding: 20px;
+}
+
+label{
+    font-family: "Courier New";
+    padding-left: 20px;
+}
+
+.instructions {
+    margin: 30px;
+    margin-left: 50px;
+}
+
+
+::-webkit-input-placeholder { font-family: "Courier New";}
+::-moz-placeholder { font-family: "Courier New"; } /* firefox 19+ */
+:-ms-input-placeholder { font-family: "Courier New"; } /* ie */
+input:-moz-placeholder { font-family: "Courier New"; }

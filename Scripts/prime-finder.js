@@ -1,5 +1,9 @@
 
 function isPrime (x) {
+    if (x === 0) {
+        return false;
+    }
+
     for (var i = 2; i < Math.sqrt(x); i++) {
         if(x%i === 0) {
             return false;
@@ -9,15 +13,18 @@ function isPrime (x) {
 }
 
 function generatePrimes(ir,dig) {
+    var primes = [];
     var factor = Math.pow(10, dig - 1);
+    var counter = 0;
 
     ir = ir*factor;
 
-    for (var i = 0; i < 20; i++) {
+    while (trun != 0) {
         var trun = Math.floor(ir);
 
         if (isPrime(trun) === true) {
-            return trun;
+            primes[counter] = trun;
+            counter++;
         }
 
         ir /= factor;
@@ -27,14 +34,15 @@ function generatePrimes(ir,dig) {
         ir -= trun2;
         ir *= 10;
     }
-}
 
-var prime = generatePrimes();
+    return primes;
+}
 
 function printPrimes() {
     var digits = document.getElementById("digits").value;
-    var irrational = 0;
 
+    var irrational = 0;
+    var output = "";
 
     if (document.getElementById("sqrt2").checked) {
         irrational = Math.sqrt(2);
@@ -45,10 +53,17 @@ function printPrimes() {
     }
 
     if (document.getElementById("e").checked) {
-        irrational = Math.E;
+        irrational = 2.718281828459045235360287471352662497757247093699959574966967627724076630353547594571382178525166427427466391932003059921817413596629043572900334295260595630738132328627943490763233829880753195251019011573834187930702154089149;
     }
 
-    var p = generatePrimes(irrational,digits);
-    document.getElementById("primes").innerText = p.toString();
+    var primes = generatePrimes(irrational,digits);
+
+    for (var i = 0; i < primes.length; i++) {
+        output += primes[i];
+        output += "\n";
+    }
+
+    document.getElementById("primes").innerText = output;
+
 }
 

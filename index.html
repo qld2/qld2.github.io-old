@@ -4,22 +4,24 @@
 	<head>
 		<title> Quinn Donovan's Professional Website </title>
 		
-		<link rel="stylesheet" href="Styles/auxilary-style.css">
+		<link rel="stylesheet" href="Styles/style.css">
+		<link rel="stylesheet" href="Styles/color-schemes.css">
 	</head>
 	
 	
 	
-	<body>
+	<body class="home">
 
 		<div>
-			<h1>Quinn Donovan</h1>
+			<h1 class="home">Quinn Donovan</h1>
 		
-			<img src = "Resources/Professional%20Picture.JPG" width="150" height="150">
+			<img src = "Resources/Professional%20Picture.JPG" id ="prof-pic">
 		
 			<div>
 				<a href = "Resources/Resume.pdf">Resume</a> |
 				<a href = "https://github.com/qld2"> Github </a> |
-				<a href = "https://youtu.be/dQw4w9WgXcQ?t=42s"> LinkedIn </a>
+				<a href = "https://www.linkedin.com/in/quinn-donovan-9096b2158/"> LinkedIn </a> |
+				<a href = "https://www.hackerrank.com/qld21"> HackerRank </a>
 			</div>
 
 			
@@ -33,13 +35,21 @@
 			<p> Personally, my hobbies include snowboarding, playing guitar and spending time with family and friends.
 			I enjoy wasting more money than I should at punk rock and rap concerts. One of my most proud achievements 
 		    is that I have stage dove. I love math on a nerdy level: I have a white board full of proofs on my dorm door white board. </p>
-		
-		
 		</div>
 
-		<div>
-			<a href="Pages/primes-in-irrationals.html">Cool Math Thing</a>
+        <h3>Prime Numbers:</h3>
 
+		<div class="buttons primes">
+			<a href="Pages/primes-in-irrationals.html">Primes in Irrationals</a>
+            <a href="Pages/prime-factorizer.html">Prime Factorizer</a>
 		</div>
-	</body>
+
+        <h3>Linear Algebra:</h3>
+
+        <div class="buttons lin-alg">
+            <a href="Pages/determinant-calculator.html">Determinant Calculator</a>
+            <a href="Pages/primes-in-irrationals.html">Equation Solver</a>
+        </div>
+
+    </body>
 </html>

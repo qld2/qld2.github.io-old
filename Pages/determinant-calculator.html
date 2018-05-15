@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Determinant Calculator</title>
+
+    <link rel="stylesheet" type="text/css" href="../Styles/style.css">
+    <link rel="stylesheet" type="text/css" href="../Styles/color-schemes.css">
+    <link rel="stylesheet" type="text/css" href="../Styles/matrices.css">
+
+    <script type="text/javascript" src ='../Scripts/determinant-calculator-handler.js'></script>
+</head>
+
+
+<body class="lin-alg">
+
+<h1 class="lin-alg">
+Determinant Calculator
+</h1>
+
+<p class = "instructions">
+    Looking for a determinant???
+</p>
+
+<p style= "text-align: center">
+    How large is this matrix?
+</p>
+
+<div>
+
+    <label for="two">2 by 2</label>
+    <input id="two" type="radio" name="ukus" value="us" class="radios" checked>
+
+    <label for="three">3 by 3</label>
+    <input id="three" type="radio" name="ukus" value="us" class="radios">
+
+    <label for="four">4 by 4</label>
+    <input id="four" type="radio" name="ukus" value="uk" class="radios">
+
+</div>
+
+<div>
+    <button id="Enter" onclick="showMatrix()">Enter</button>
+</div>
+
+<div class="matrix">
+    <div>
+        <input id="m11" type="text">
+        <input id="m21" type="text">
+    </div>
+
+    <div>
+        <input id="m12" type="text">
+        <input id="m22" type="text">
+    </div>
+</div>
+
+
+</body>
+</html>

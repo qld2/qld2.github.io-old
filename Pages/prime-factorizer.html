@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Prime Factorizer</title>
+
+    <link rel="stylesheet" type="text/css" href="../Styles/style.css">
+    <link rel="stylesheet" type="text/css" href="../Styles/color-schemes.css">
+
+    <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+    <script type="text/javascript" src ='../Scripts/factorizer.js'></script>
+</head>
+
+
+<body class="primes">
+
+<h1 class="primes">
+    Prime Factorization Generator
+</h1>
+
+<p class = "instructions">
+    The Fundamental Theorem of Arithmetic ensures that all natural numbers have a unique factorization
+    into a product of prime numbers. Enter a natural number below.
+</p>
+
+<p style= "text-align: center">
+    Natural Number:
+</p>
+
+<div>
+    <input id="digits" type="text" placeholder="Enter a number">
+</div>
+
+<div>
+    <button id="Enter" onclick="printFactorization()">Find Primes</button>
+</div>
+
+<p id="prime-factors"></p>
+
+</body>
+</html>

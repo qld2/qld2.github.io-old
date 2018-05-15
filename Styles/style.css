@@ -1,19 +1,62 @@
-body {
-    background-color: grey;
-}
 h1 {
-	
-}
-p {
-	
+    font-family: "Courier New",  Times, serif;
+    margin: 50px;
+    padding-left: 30px;
 }
 
-img {
-    -ms-transform: rotate(270deg);
-    -webkit-transform: rotate(270deg);
-    transform: rotate(270deg);
+h3 {
+    font-family: "Courier New",  Times, serif;
+    text-align: center;
 }
+
+p {
+    font-family: "Courier New",  Times, serif;
+    margin: 15px;
+    padding-bottom: 1px;
+}
+
 
 div{
+    font-family: "Courier New",  Times, serif;
     text-align: center;
+    padding: 20px;
+    text-decoration: none;
+}
+
+a {
+    font-family: "Courier New",  Times, serif;
+    text-align: center;
+    padding: 20px;
+    text-decoration: none;
+}
+
+label{
+    font-family: "Courier New",  Times, serif;
+    padding-left: 20px;
+}
+
+.instructions {
+    margin: 30px;
+    margin-left: 50px;
+}
+
+
+::-webkit-input-placeholder { font-family: "Courier New",  Times, serif;}
+::-moz-placeholder { font-family: "Courier New",  Times, serif; } /* firefox 19+ */
+:-ms-input-placeholder { font-family: "Courier New",  Times, serif; } /* ie */
+input:-moz-placeholder { font-family: "Courier New",  Times, serif; }
+
+#prof-pic {
+    width: 180px;
+}
+
+.buttons a:link, .buttons a:visited {
+    font-family: "Courier New",  Times, serif;
+    background-color: #ceced2;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    width: 280px;
 }

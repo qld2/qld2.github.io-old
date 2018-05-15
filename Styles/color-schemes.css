@@ -1,0 +1,34 @@
+body.home {
+    background-color: #adf3ff;
+}
+
+h1.home {
+    border-left: 6px solid #23b1ff;
+    background-color: #81d2ff;
+}
+
+body.primes {
+    background-color: #aaffd8;
+}
+
+h1.primes {
+    border-left: 6px solid #26bd41;
+    background-color: #4ceb95;
+}
+
+.buttons.primes a:hover, .buttons.primes a:active {
+    background-color: #50f89e;
+}
+
+body.lin-alg {
+    background-color: #ff8b8b;
+}
+
+h1.lin-alg {
+    border-left: 6px solid #bd181c;
+    background-color: #ff4a4d;
+}
+
+.buttons.lin-alg a:hover, .buttons.lin-alg a:active {
+    background-color: #ff4a4d;
+}

@@ -3,7 +3,7 @@ function isPrime (x) {
         return false;
     }
 
-    for (var i = 2; i < Math.sqrt(x); i++) {
+    for (var i = 2; i <= Math.sqrt(x); i++) {
         if(x%i === 0) {
             return false;
         }
@@ -16,14 +16,15 @@ function factorize(x) {
         return String(x) + "."
     }
 
-    for(var i = 2; i < Math.sqrt(x); i++) {
-        if(isPrime(i) === 1 && x%i === 0) {
+    for(var i = 2; i <= Math.sqrt(x); i++) {
+        if(isPrime(i) === true && x%i === 0) {
             return String(i) + ", " + factorize(x/i)
         }
     }
     return "";
 }
 
-function printFactorization(input) {
-    document.getElementById("prime-factors").innerText = String(factorize(Number(document.getElementById("digits").innerText)));
+function printFactorization() {
+    document.getElementById("prime-factors-header").innerText = "Prime Factors:";
+    document.getElementById("prime-factors").innerText = String(factorize(Number(document.getElementById("digits").value)));
 }

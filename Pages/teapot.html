@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Utah Teapot</title>
+</head>
+<link rel="stylesheet" type="text/css" href="../Styles/teastyle.css">
+
+
+<canvas id="canvas"></canvas>
+
+<script id="reflective-shader-vs" type="x-shader/x-vertex">
+   attribute vec3 aVertexPosition;
+   attribute vec3 aVertexNormal;
+   attribute vec4 aVertexColor;
+
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+    uniform mat4 uWorldMatrix;
+
+    varying vec4 vColor;
+
+    varying vec3 vWorldPosition;
+    varying vec3 vWorldNormal;
+
+    void main(void) {
+        gl_Position = uPMatrix*uMVMatrix*uWorldMatrix*vec4(aVertexPosition, 1.0);
+
+        vColor = aVertexColor;
+        vWorldPosition = (uWorldMatrix * vec4(aVertexPosition, 1.0)).xyz;
+        vWorldNormal = mat3(uWorldMatrix) * aVertexNormal;
+    }
+</script>
+
+<script id="reflective-shader-fs" type="x-shader/x-fragment">
+precision mediump float;
+    varying vec4 vColor;
+    varying vec3 vWorldPosition;
+    varying vec3 vWorldNormal;
+
+    uniform samplerCube u_texture;
+    uniform vec3 u_worldCameraPosition;
+
+    void main(void) {
+         vec3 worldNormal = normalize(vWorldNormal);
+        vec3 eyeToSurfaceDir = normalize(vWorldPosition - u_worldCameraPosition);
+        vec3 direction = reflect(eyeToSurfaceDir,worldNormal);
+
+        vec4 MC = textureCube(u_texture, direction);
+        vec3 uAmbientMaterialColor = vec3(MC[0], MC[1], MC[2]);
+        vec3 uDiffuseMaterialColor = vec3(MC[0], MC[1], MC[2]);
+        vec3 uSpecularMaterialColor = vec3(1, 1, 1);
+
+        vec3 uLightPosition = vec3(1, 1, 1);
+
+        vec3 uAmbientLightColor = vec3(1, 1, 1);
+        vec3 uDiffuseLightColor = vec3(1, 1, 1);
+        vec3 uSpecularLightColor = vec3(1, 1, 1);
+
+        float uShininess = 50.0;
+
+        //which position???
+        vec3 vectorToLightSource = normalize(uLightPosition - vWorldPosition);
+
+        vec3 normalEye = worldNormal;
+
+        float diffuseLightWeightning = max(dot(normalEye, vectorToLightSource), 0.0);
+
+        //the camera in eye coordinates is located at the origin and is pointing in the
+        //negative z direction. Calculate viewVector:
+        vec3 viewVectorEye = -normalize(vWorldPosition);
+
+        vec3 halfwayVector = normalize(vectorToLightSource + viewVectorEye);
+        float rdotv = max(dot(halfwayVector, normalEye), 0.0);
+
+        float specularLightWeightning = pow(rdotv, uShininess);
+
+        gl_FragColor = vec4(((uAmbientLightColor * uDiffuseMaterialColor)
+                            + (uDiffuseLightColor * uDiffuseMaterialColor) * diffuseLightWeightning
+                            + (uSpecularLightColor * uSpecularMaterialColor) * specularLightWeightning), 1.0);
+    }
+</script>
+
+<script id="refractive-shader-vs" type="x-shader/x-vertex">
+   attribute vec3 aVertexPosition;
+   attribute vec3 aVertexNormal;
+   attribute vec4 aVertexColor;
+
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+    uniform mat4 uWorldMatrix;
+
+    varying vec4 vColor;
+
+    varying vec3 vWorldPosition;
+    varying vec3 vWorldNormal;
+
+    void main(void) {
+        gl_Position = uPMatrix*uMVMatrix*uWorldMatrix*vec4(aVertexPosition, 1.0);
+
+        vColor = aVertexColor;
+        vWorldPosition = (uWorldMatrix * vec4(aVertexPosition, 1.0)).xyz;
+        vWorldNormal = mat3(uWorldMatrix) * aVertexNormal;
+    }
+</script>
+
+<script id="refractive-shader-fs" type="x-shader/x-fragment">
+precision mediump float;
+    varying vec4 vColor;
+    varying vec3 vWorldPosition;
+    varying vec3 vWorldNormal;
+
+    uniform samplerCube u_texture;
+    uniform vec3 u_worldCameraPosition;
+
+    void main(void) {
+        vec3 worldNormal = normalize(vWorldNormal);
+        vec3 eyeToSurfaceDir = normalize(vWorldPosition - u_worldCameraPosition);
+        vec3 direction = refract(eyeToSurfaceDir,worldNormal, 0.5);
+
+        vec4 MC = textureCube(u_texture, direction);
+        vec3 uAmbientMaterialColor = vec3(MC[0], MC[1], MC[2]);
+        vec3 uDiffuseMaterialColor = vec3(MC[0], MC[1], MC[2]);
+        vec3 uSpecularMaterialColor = vec3(1, 1, 1);
+
+        vec3 uLightPosition = vec3(1, 1, 1);
+
+        vec3 uAmbientLightColor = vec3(1, 1, 1);
+        vec3 uDiffuseLightColor = vec3(1, 1, 1);
+        vec3 uSpecularLightColor = vec3(1, 1, 1);
+
+        float uShininess = 100.0;
+
+        //which position???
+        vec3 vectorToLightSource = normalize(uLightPosition - vWorldPosition);
+
+        vec3 normalEye = worldNormal;
+
+        float diffuseLightWeightning = max(dot(normalEye, vectorToLightSource), 0.0);
+
+        //the camera in eye coordinates is located at the origin and is pointing in the
+        //negative z direction. Calcualte viewVector:
+        vec3 viewVectorEye = -normalize(vWorldPosition);
+
+        vec3 halfwayVector = normalize(vectorToLightSource + viewVectorEye);
+        float rdotv = max(dot(halfwayVector, normalEye), 0.0);
+
+        float specularLightWeightning = pow(rdotv, uShininess);
+
+        gl_FragColor = vec4(((uAmbientLightColor * uDiffuseMaterialColor)
+                            + (uDiffuseLightColor * uDiffuseMaterialColor) * diffuseLightWeightning
+                            + (uSpecularLightColor * uSpecularMaterialColor) * specularLightWeightning), 1.0);
+    }
+</script>
+
+<script  id="skybox-shader-vs" type="x-shader/x-vertex">
+    attribute vec3 a_position;
+    attribute vec3 a_normal;
+    varying vec3 v_normal;
+
+    varying vec3 TexCoords;
+
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+
+void main() {
+  TexCoords = a_position;
+  v_normal = a_normal;
+  gl_Position = uPMatrix*uMVMatrix*vec4(a_position, 1.0);
+}
+</script>
+
+<script  id="skybox-shader-fs" type="x-shader/x-fragment">
+precision mediump float;
+
+    varying vec3 TexCoords;
+
+uniform samplerCube u_skybox;
+uniform mat4 u_viewDirectionProjectionInverse;
+varying vec3 v_normal;
+
+void main() {
+  gl_FragColor = textureCube(u_skybox, normalize(TexCoords));
+}
+</script>
+
+
+<script src="../Scripts/webgl-utils.js"></script>
+<script src="../Scripts/m4.js"></script>
+<script src="../Scripts/primitives.js"></script>
+<script src="../Scripts/gl-matrix-min.js"></script>
+<script src="../Scripts/MP3.js"></script>
+<body onload="start()" onkeydown="keyHandler(event)">
+(Wont show anything until file loads)<br><br>
+Press 'a' and 'd' to orbit camera<br>
+Press 'w' and 's' to rotate pot<br><br>
+
+<input type="radio" name="shade" value="reflective" id="radio" checked="checked"> Reflective<br>
+<input type="radio" name="shade" value="refractive"> Refractive<br>
+</body>
+
+</html>

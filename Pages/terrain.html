@@ -1,0 +1,125 @@
+<!DOCTYPE HTML> 
+<html lang="en"> 
+<head>
+<title>Terrain Builder</title>
+<meta charset="utf-8"> 
+</head>
+    
+<script id="shader-blinn-phong-vs" type="x-shader/x-vertex">
+    attribute vec3 aVertexNormal;
+    attribute vec3 aVertexPosition;
+   
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+    uniform mat3 uNMatrix;
+    varying vec3 vNormal;
+    varying vec3 vPosition;
+   
+    varying vec3 fVertexPosition;
+    
+    void main(void) {
+        //get the vertex position into starter coordinates
+        vec4 vertexPositionEye4 = uMVMatrix * vec4(aVertexPosition, 1.0);
+        //calculate the normal
+        vNormal = normalize(uNMatrix * aVertexNormal);
+   
+        fVertexPosition = aVertexPosition;
+   
+        gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    }
+</script>
+    
+<script id="shader-blinn-phong-fs" type="x-shader/x-fragment">
+    precision mediump float;
+    varying vec3 fVertexPosition;    
+
+    varying vec3 vPosition;
+    varying vec3 vNormal;
+    
+    void main(void) { 
+        vec3 uLightPosition = vec3(20, 20, 20);
+        
+        vec3 uAmbientLightColor = vec3(0, 0, 0);
+        vec3 uDiffuseLightColor = vec3(1, 1, 1);
+        vec3 uSpecularLightColor = vec3(1, 1, 1);
+    
+        float uShininess = 1.0;
+        
+        vec3 uAmbientMaterialColor;
+        vec3 uDiffuseMaterialColor;
+        vec3 uSpecularMaterialColor;
+        
+        if (fVertexPosition.z < .10) {
+            uAmbientMaterialColor = vec3(.25, .25, .25);
+            uDiffuseMaterialColor = vec3(.25, .25, .25);
+            uSpecularMaterialColor = vec3(1, 1, 1);
+        } else if (fVertexPosition.z < .125) {
+            uAmbientMaterialColor = vec3(0.5, 0.5, 0);
+            uDiffuseMaterialColor = vec3(0.5, 0.5, 0);
+            uSpecularMaterialColor = vec3(1, 1, 1);
+        } else if (fVertexPosition.z < .15) {
+            uAmbientMaterialColor = vec3(0, 1, 0);
+            uDiffuseMaterialColor = vec3(0, 1, 0);
+            uSpecularMaterialColor = vec3(1, 1, 1);
+        } else {
+            uAmbientMaterialColor = vec3(0, 0, 1);
+            uDiffuseMaterialColor = vec3(0, 0, 1);
+            uSpecularMaterialColor = vec3(1, 1, 1);
+        }
+        
+    
+        //calculate the vector l to the light source
+        vec3 vectorToLightSource = normalize(uLightPosition - vPosition);
+        
+        //normalize interpolated normal
+        vec3 normalEye = normalize(vNormal);
+        
+        //calculate n dot l
+        float diffuseLightWeightning = max(dot(normalEye, vectorToLightSource), 0.0);
+    
+        //calculate the reflection vector (r) that is needed for specular light
+        //not used for blinn phong   
+        //vec3 reflectionVector = normalize(reflect(-vectorToLightSource, normalEye));
+        
+        //the camera in eye coordinates is located at the origin and is pointing in the
+        //negative z direction. Calcualte viewVector:
+        vec3 viewVectorEye = -normalize(vPosition);
+        
+        //float rdotv = max(dot(reflectionVector, viewVectorEye), 0.0);
+        //difference between phong and blinn-phong is the use of this halfway vector
+        vec3 halfwayVector = normalize(vectorToLightSource + viewVectorEye);
+        float rdotv = max(dot(halfwayVector, normalEye), 0.0);        
+        
+        float specularLightWeightning = pow(rdotv, uShininess);
+        
+        gl_FragColor = vec4(((uAmbientLightColor * uDiffuseMaterialColor)
+                            + (uDiffuseLightColor * uDiffuseMaterialColor) * diffuseLightWeightning
+                            + (uSpecularLightColor * uSpecularMaterialColor) * specularLightWeightning), 1.0);
+        
+    }
+    
+</script>    
+    
+    
+<script src="../Scripts/gl-matrix-min.js"></script>
+<script src="../Scripts/webgl-utils.js"></script>
+<script src="../Scripts/terrainModeling.js"></script>
+<script src="../Scripts/MP2.js"></script>
+<body onload="startup();">  
+ <canvas id="myGLCanvas" width="800" height="800"></canvas>
+ <br>If all four colors dont appear, please refresh! (It is just due to the random partioning)
+</body>
+    
+    <div class="slidecontainer">
+        Light X-Location:
+        <input type="range" min="-50" max="50" value="20" class="slider" id="lightX">
+    </div>
+    <div class="slidecontainer">
+        Camera Y-Location;
+        <input type="range" min="-300" max="0" value="-65" class="slider" id="myY">
+    </div>
+    <div class="slidecontainer">
+        Camera Z-Location;
+        <input type="range" min="-400" max="0" value="-40" class="slider" id="myZ">
+    </div>
+</html>
